@@ -1,6 +1,3 @@
-from itertools import combinations
-
-
 # Global variable to store the count
 # It's not a good idea I understand.
 COUNT = 0
