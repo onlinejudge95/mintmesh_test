@@ -1,10 +1,11 @@
-def get_all_nodes(nodes):
+def get_all_data(nodes, country=None):
     result = []
 
     for node in nodes:
         data_nodes = node.find_all("td")
         try:
             country_name = data_nodes[1].find("a").contents[0]
+
             total_cases = int(data_nodes[2].contents[0].replace(",", "").strip())
             active_cases = int(data_nodes[8].contents[0].replace(",", "").strip())
             total_deaths = int(data_nodes[4].contents[0].replace(",", "").strip())
@@ -18,6 +19,9 @@ def get_all_nodes(nodes):
                 "recovery_rate": round((total_recovered * 100.0) / total_cases, 2),
                 "infected_population_percentage": round((total_cases * 100.0) / population, 2)
             }
+
+            if country and country_name == country:
+                return temp
             result.append(temp)
         except Exception as e:
             print(e)

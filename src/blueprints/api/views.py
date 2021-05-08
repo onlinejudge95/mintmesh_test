@@ -5,7 +5,7 @@ from flask import jsonify
 from lxml import etree
 from requests import get
 
-from src.blueprints.api.lib import get_all_nodes
+from src.blueprints.api.lib import get_all_data
 
 
 bp = Blueprint("api", __name__, url_prefix="/api")
@@ -22,12 +22,24 @@ def global_case_details():
 
             nodes = soup.find("table", {"id": "main_table_countries_today"}).find("tbody").find_all("tr")
 
-            countries_data = get_all_nodes(nodes)
+            countries_data = get_all_data(nodes)
         return jsonify({"url": url, "data": countries_data}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @bp.route("/case_details/<string:country>")
-def specific_country_case_details():
-    pass
+def specific_country_case_details(country):
+    url = current_app.config.get("DATA_SOURCE_URL")
+    try:
+        response = get(url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, "lxml")
+
+            nodes = soup.find("table", {"id": "main_table_countries_today"}).find("tbody").find_all("tr")
+
+            country_data = get_all_data(nodes, country)
+        return jsonify({"url": url, "data": country_data}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
