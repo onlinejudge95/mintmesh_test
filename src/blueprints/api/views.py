@@ -20,7 +20,11 @@ def global_case_details():
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, "lxml")
 
-            nodes = soup.find("table", {"id": "main_table_countries_today"}).find("tbody").find_all("tr")
+            nodes = (
+                soup.find("table", {"id": "main_table_countries_today"})
+                .find("tbody")
+                .find_all("tr")
+            )
 
             countries_data = get_all_data(nodes)
         return jsonify({"url": url, "data": countries_data}), 200
@@ -37,7 +41,11 @@ def specific_country_case_details(country):
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, "lxml")
 
-            nodes = soup.find("table", {"id": "main_table_countries_today"}).find("tbody").find_all("tr")
+            nodes = (
+                soup.find("table", {"id": "main_table_countries_today"})
+                .find("tbody")
+                .find_all("tr")
+            )
 
             country_data = get_all_data(nodes, country)
         return jsonify({"url": url, "data": country_data}), 200

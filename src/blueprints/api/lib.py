@@ -10,14 +10,18 @@ def get_all_data(nodes, country=None):
             active_cases = int(data_nodes[8].contents[0].replace(",", "").strip())
             total_deaths = int(data_nodes[4].contents[0].replace(",", "").strip())
             total_recovered = int(data_nodes[6].contents[0].replace(",", "").strip())
-            population = int(data_nodes[14].find("a").contents[0].replace(",", "").strip())
+            population = int(
+                data_nodes[14].find("a").contents[0].replace(",", "").strip()
+            )
             temp = {
                 "country_name": country_name,
                 "total_cases": total_cases,
                 "active_cases": active_cases,
                 "total_deaths": total_deaths,
                 "recovery_rate": round((total_recovered * 100.0) / total_cases, 2),
-                "infected_population_percentage": round((total_cases * 100.0) / population, 2)
+                "infected_population_percentage": round(
+                    (total_cases * 100.0) / population, 2
+                ),
             }
 
             if country and country_name == country:
