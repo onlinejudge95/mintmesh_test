@@ -5,6 +5,8 @@ from flask import jsonify
 from lxml import etree
 from requests import get
 
+from src.blueprints.api.lib import get_all_nodes
+
 
 bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -18,8 +20,10 @@ def global_case_details():
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, "lxml")
 
-            node = soup.find("table", {"id": "main_table_countries_today"}).find("tbody")
-        return jsonify({"url": url, "data": []}), 200
+            nodes = soup.find("table", {"id": "main_table_countries_today"}).find("tbody").find_all("tr")
+
+            countries_data = get_all_nodes(nodes)
+        return jsonify({"url": url, "data": countries_data}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
