@@ -1,3 +1,4 @@
 #!/bin/bash
 
-black --target-version py37 --check --diff .
+black --check --diff --target-version py37 .
+flake8 --exclude __init__.py --max-line-length 88 .

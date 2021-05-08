@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from flask import Blueprint
 from flask import current_app
 from flask import jsonify
-from lxml import etree
 from requests import get
 
 from src.blueprints.api.lib import get_all_data
